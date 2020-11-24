@@ -1,6 +1,17 @@
 I2provisioner
 =============
-A utility used for the automatic provisioning of hosts into icinga2 via the director module API.
+A utility used for the automatic provisioning of hosts into icinga2 via the director module API. 
+
+This script will perform the following:
+- Take in commandline arguments about what you would like to name the host you are going to monitor, and which host template you would like to have it set up with (using the templates API key).
+- Gather information about the host that you would like to set up as a monitoring endpoint such as hostname, and IP address.
+- Connect to the Director API to request a ticket for the host.
+- Add the host to icinga2 for monitoring via the Director API ticket.
+- Generate an agent provisioning bash script as provided by the developers of icinga2.
+- Format that bash script with all the details that have been either gathered or provided.
+- Execute the bash script to configure the host as a monitoring endpoint automatically.
+- Deploys the Director module configuration.
+- Removes the bash script.
 
 Prerequisites
 --------------
