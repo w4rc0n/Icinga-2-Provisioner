@@ -1,6 +1,6 @@
 I2provisioner
 =============
-A utility used for the automatic provisioning of hosts into icinga2 via the director module API. 
+A utility used for the automatic provisioning of hosts into icinga2 via the icinga 2 director module API, and configuring the host itself as an icinga2 endpoint.
 
 This script will perform the following:
 - Take in commandline arguments about what you would like to name the host you are going to monitor, and which host template you would like to have it set up with (using the templates API key).
@@ -17,10 +17,15 @@ Prerequisites
 --------------
 - Host must be using linux. Windows not supported at this time. (Confirmed working on Ubuntu 14.04-20.04, but should work on other distros)
 - icinga2 must be installed on the host you would like to provision into icinga2.
-- icinga2 API must be enabled on the config master. 
 - The host you would like to provision into icinga2 must be able to talk to your icinga2 master on ports 443/tcp, 5665/tcp.
     - It would work with port 80/tcp/http as well, however you would need to adjust the script for that, and I don't recommend sending API credentials over unencrypted connections.
 - The icinga2 [director module](https://github.com/Icinga/icingaweb2-module-director) must be installed and configured on the master.
+- [Icinga Web 2](https://github.com/Icinga/icingaweb2) must be installed and configured on the master.
+- You must create an Icinga Web 2 web user that has the following permissions (I would recommend a dedicated user with no other permissions:
+    - General Module Access (for director)
+    - director/api
+    - director/deploy
+    - director/hosts
 - You will need an API key for the host template you would like to use:
     1. Select `Icinga Director` in the icinga2 web interface, in the left side bar.
     2. Select `Hosts`
@@ -28,11 +33,6 @@ Prerequisites
     4. Select the template you would like to provision with
     5. Select the `Agent` tab
     6. Select `Generate Self Service API key`
-- You must create an icinga2 API user that has the following permissions:
-    - General Module Access (for director)
-    - director/api
-    - director/deploy
-    - director/hosts
 - You must have the following python libraries installed:
     - socket
     - requests
