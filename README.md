@@ -17,6 +17,7 @@ Prerequisites
 --------------
 - Host must be using linux. Windows not supported at this time. (Confirmed working on Ubuntu 14.04-20.04, but should work on other distros)
 - icinga2 must be installed on the host you would like to provision into icinga2.
+- icinga2 API must be enabled on the config master. 
 - The host you would like to provision into icinga2 must be able to talk to your icinga2 master on ports 443/tcp, 5665/tcp.
     - It would work with port 80/tcp/http as well, however you would need to adjust the script for that, and I don't recommend sending API credentials over unencrypted connections.
 - The icinga2 [director module](https://github.com/Icinga/icingaweb2-module-director) must be installed and configured on the master.
