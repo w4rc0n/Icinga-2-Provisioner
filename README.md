@@ -1,12 +1,21 @@
 I2provisioner
 =============
-A utility used for the automatic provisioning of hosts into icinga2 via the director module
+A utility used for the automatic provisioning of hosts into icinga2 via the director module API.
 
 Prerequisites
-- Host must be using linux. Windows not supported at this time. (Confirmed working on Ubuntu 14.04-20.04, but should work on others)
+--------------
+- Host must be using linux. Windows not supported at this time. (Confirmed working on Ubuntu 14.04-20.04, but should work on other distros)
 - icinga2 must be installed on the host you would like to provision into icinga2.
 - The host you would like to provision into icinga2 must be able to talk to your icinga2 master on port 443/tcp.
+    - It would work with port 80/tcp/http as well, however you would need to adjust the script for that, and I don't recommend sending API credentials over unencrypted connections.
 - The icinga2 [director module](https://github.com/Icinga/icingaweb2-module-director) must be installed and configured on the master.
+- You will need an API key for the host template you would like to use:
+    1. Select `Icinga Director` in the icinga2 web interface, in the left side bar.
+    2. Select `Hosts`
+    3. Select `Host Templates`
+    4. Select the template you would like to provision with
+    5. Select the `Agent` tab
+    6. Select `Generate Self Service API key`
 - You must create an icinga2 API user that has the following permissions:
     - General Module Access (for director)
     - director/api
@@ -65,7 +74,7 @@ icinga2_installed:
 
 {%- endif %}
 ```
-The above will check if icinga2 has already been configured on the host in question using a grain called `icinga2_installed`, and stop if it has been. If it hasn't been, it will run the provisioning and then set the `icinga2_installed` grain to `True` to avoid re-provisoning.
+The above will check if icinga2 has already been configured on the host in question using a grain called `icinga2_installed`, and stop if it has been. If it hasn't been, it will run the provisioning and then set the `icinga2_installed` grain to `True` to avoid re-provisoning. After it has run the provisioning, it will remove the script from the host.
 
  If you would like to run the script manually on a host, you may do so:
-  - `python3 I2provisioner.py -d host.example.com -k HostTemplateAPIKey`
+  - `./I2provisioner.py -d host.example.com -k HostTemplateAPIKey`
