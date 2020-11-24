@@ -11,9 +11,9 @@ masterip = 'ip address of the above host'
 # If you have a second master set up in an HA cluster, provide those details below like the above. If you do not have a second master, leave them as is.
 master2 = ''
 masterip2 = ''
-# Your api information
-apiuser = 'your_api_user'
-apipass = 'your_api_password'
+# Your icinga web 2 login information
+webuser = 'web_user'
+webpass = 'web_password'
 
 # Take in positional command line args
 parser = argparse.ArgumentParser()
@@ -50,7 +50,7 @@ requests.post(url=url, data=data, headers=headers)
 # Form ticket URL from item and ticket API URL
 ticketurl = master + '/director/host/ticket?name=' + domainstring
 # GET for the icinga ticket
-response = requests.get(url=ticketurl, headers={'Accept': 'application/json'}, auth=(apiuser, apipass))
+response = requests.get(url=ticketurl, headers={'Accept': 'application/json'}, auth=(webuser, webpass))
 # Capture content of the GET request
 ticket = response.text.replace('"','')
 ticket = ticket.rstrip()
@@ -384,6 +384,6 @@ subprocess.call(["sed", "-i", sedcmd, "icinga2kickstart.sh"])
 subprocess.call(["bash", "icinga2kickstart.sh"])
 # Deploy new icinga configuration
 deployurl = master + '/director/config/deploy'
-requests.post(url=deployurl, headers=headers, auth=(apiuser, apipass))
+requests.post(url=deployurl, headers=headers, auth=(webuser, webpass))
 # Cleanup
 subprocess.call(["rm", "icinga2kickstart.sh"])
