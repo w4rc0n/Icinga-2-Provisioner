@@ -362,7 +362,10 @@ fi
 systemctl restart icinga2
     ''')
 # Adjust the second master string for placement in the bash script above
-master2string = ' ' + master2 + ',' + masterip2
+if master2 != '' and masterip2 != '':
+        master2string = ' ' + master2 + ',' + masterip2
+else:
+        master2string = ''
 # Form the strings to be placed into the kickstart script for the host
 replacementCA = 'ICINGA2_CA_NODE=' + "'" + master + "'"
 replacementmaster = 'ICINGA2_PARENT_ENDPOINTS=(' + master + ',' + masterip + master2string + ')'
